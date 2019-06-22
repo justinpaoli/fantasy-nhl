@@ -1,34 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Axios from 'axios';
 
-export default class Teams extends React.Component {
-  state = {
-    ids: [],
-    names: [],
-    abbrs: []
-  };
+export default function Teams() {
+  const [teams, setTeams] = useState([]);
 
-  componentDidMount() {
+  useEffect(() => {
     Axios
       .get('/api/teams')
       .then(response => {
-        const [ids, names, abbrs] = [[], [], []];
-        response.data.forEach(team => {
-          ids.push(team.id);
-          names.push(team.name);
-          abbrs.push(team.abbreviation);
-        });
-        this.setState({ ids: ids, names: names, abbrs: abbrs });
+        setTeams(response.data);
       });
-  }
+  }, []);
   
-  render() {
-    return (
-      <ul>
-        {this.state.ids.map((id, index) => (
-          <li key={id.toString()}>{this.state.abbrs[index]}: {this.state.names[index]}</li>
-        ))}
-      </ul>
-    )
-  }
+  return (
+    <ul>
+      {teams.map((team) => (
+        <li key={team.id.toString()}>{team.abbreviation}: {team.name}</li>
+      ))}
+    </ul>
+  );
 }
