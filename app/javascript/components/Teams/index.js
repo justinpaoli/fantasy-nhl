@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Axios from 'axios';
+import { Segment } from 'semantic-ui-react';
 
 export default function Teams() {
   const [teams, setTeams] = useState([]);
@@ -13,13 +14,13 @@ export default function Teams() {
   }, []);
   
   return (
-    <ul>
+    <div>
       {teams.map((team) => (
-        <li key={team.id.toString()}>
+        <Segment key={team.id.toString()}>
           <img src={team.logo} width="20" height="20" />
           {team.abbreviation}: {team.name}
-        </li>
+        </Segment>
       ))}
-    </ul>
+    </div>
   );
 }
