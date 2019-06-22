@@ -1,0 +1,1 @@
+require 'nhl_api/requests'
