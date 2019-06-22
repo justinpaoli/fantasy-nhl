@@ -15,7 +15,10 @@ export default function Teams() {
   return (
     <ul>
       {teams.map((team) => (
-        <li key={team.id.toString()}>{team.abbreviation}: {team.name}</li>
+        <li key={team.id.toString()}>
+          <img src={team.logo} width="20" height="20" />
+          {team.abbreviation}: {team.name}
+        </li>
       ))}
     </ul>
   );

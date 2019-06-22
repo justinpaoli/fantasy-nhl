@@ -9,5 +9,9 @@ module NHLApi
         path: '/teams'
       }
     end
+
+    def self.team_logo(id)
+      "https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/#{id}.svg"
+    end
   end
 end
