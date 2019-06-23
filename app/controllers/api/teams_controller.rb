@@ -10,6 +10,7 @@ module API
         team['logo'] = NHLApi::Requests.team_logo(team['id'])
         team
       end
+      data.sort! { |a, b| a['name'] <=> b['name']}
 
       render json: data
     end
