@@ -6,7 +6,7 @@ export default function TeamsTableRow(props) {
   
   return (
     <Transition animation='pulse' duration={0.5}>
-    <Card href={`/team/${team.abbreviation}`}>
+    <Card href={`/team/${team.id}`}>
       <Card.Content>
         <Image floated='right' size='tiny' src={team.logo} />
         <Card.Header>{team.name}</Card.Header>

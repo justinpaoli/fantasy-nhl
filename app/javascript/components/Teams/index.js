@@ -8,9 +8,7 @@ export default function Teams() {
   useEffect(() => {
     Axios
       .get('/api/teams')
-      .then(response => {
-        setTeams(response.data);
-      });
+      .then(response => setTeams(response.data));
   }, []);
   
   return (
