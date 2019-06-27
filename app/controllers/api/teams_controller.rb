@@ -10,7 +10,6 @@ module API
       http = nhl_api
       teams = http.get NHLApi::Requests.all_teams
       data = JSON.parse(teams.data)['teams']
-      puts teams.data
       data.map! do |team|
         team['logo'] = NHLApi::Requests.team_logo(team['id'])
         team
