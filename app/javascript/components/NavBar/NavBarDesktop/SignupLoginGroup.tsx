@@ -1,8 +1,8 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { FunctionComponent } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 
-export default withRouter(function SignupLoginGroup(props) {
+const SignupLoginGroup: FunctionComponent<RouteComponentProps> = (props) => {
   return (
     <Button.Group>
       <Button onClick={() => props.history.push('/signup')}>
@@ -14,4 +14,6 @@ export default withRouter(function SignupLoginGroup(props) {
       </Button>
     </Button.Group>
   );
-});
+};
+
+export default withRouter(SignupLoginGroup);

@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useState, FunctionComponent } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
-import Axios from 'axios';
+import Axios, { AxiosError } from 'axios';
 
-export default withRouter(function Logout(props) {
+interface LogoutProps extends RouteComponentProps {
+  user: string
+};
+
+const Logout: FunctionComponent<LogoutProps> = (props) => {
   const [loading, setLoading] = useState(false);
 
   const handleLogout = () => {
@@ -13,10 +17,11 @@ export default withRouter(function Logout(props) {
         .delete('/logout')
         .then(_response => {
           setLoading(false);
+          // @ts-ignore
           gon.global.user = null;
           props.history.push('/');
         })
-        .catch(_error => {
+        .catch((_error: AxiosError) => {
           setLoading(false);
           // TODO: add message alerting user of failure
         })
@@ -31,4 +36,6 @@ export default withRouter(function Logout(props) {
       </Button>
     </Button.Group>
   );
-});
+};
+
+export default withRouter(Logout);

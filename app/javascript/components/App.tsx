@@ -1,14 +1,15 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, RouteComponentProps } from 'react-router-dom'
 import NavBar from './NavBar';
 import Home from './Home';
 import Login from './Login';
 import Teams from './Teams';
 import Team from './Team';
 
-export default class App extends React.Component {
-  constructor() {
-    super();
+export default class App extends React.Component<RouteComponentProps<{}>> {
+  constructor(props: RouteComponentProps) {
+    super(props);
+    // @ts-ignore
     if (!gon.global) gon.global = {};
   }
 

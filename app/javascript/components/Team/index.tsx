@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FunctionComponent } from 'react';
+// @ts-ignore
 import { SemanticToastContainer, toast } from 'react-semantic-toasts';
-import Axios from 'axios';
+import Axios, { AxiosError } from 'axios';
 import { Container } from 'semantic-ui-react';
+import { RouteComponentProps } from 'react-router';
 
-export default function Team(props) {
+interface TeamProps extends RouteComponentProps<{id: string}> {};
+
+const Team: FunctionComponent<TeamProps> = (props) => {
   const id = props.match.params.id;
   const [team, setTeam] = useState({
     name: null
@@ -13,10 +17,10 @@ export default function Team(props) {
     Axios
       .get(`/api/team/${id}`)
       .then(response => setTeam(response.data))
-      .catch(error => toast({
+      .catch((error: AxiosError) => toast({
         type: 'error',
         title: 'Error',
-        description: error.response.data,
+        description: error.response && error.response.data,
         time: 0,
         animation: 'pulse'
       }));
@@ -29,3 +33,5 @@ export default function Team(props) {
     </Container>
   );
 }
+
+export default Team;
