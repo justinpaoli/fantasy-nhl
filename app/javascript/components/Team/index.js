@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { SemanticToastContainer, toast } from 'react-semantic-toasts';
 import Axios from 'axios';
+import { Container } from 'semantic-ui-react';
 
 export default function Team(props) {
   const id = props.match.params.id;
@@ -10,10 +12,20 @@ export default function Team(props) {
   useEffect(() => {
     Axios
       .get(`/api/team/${id}`)
-      .then(response => setTeam(response.data));
+      .then(response => setTeam(response.data))
+      .catch(error => toast({
+        type: 'error',
+        title: 'Error',
+        description: error.response.data,
+        time: 0,
+        animation: 'pulse'
+      }));
   }, []);
 
   return (
-    <div>{team.name}</div>
+    <Container>
+      <SemanticToastContainer />
+      {team.name}
+    </Container>
   );
 }

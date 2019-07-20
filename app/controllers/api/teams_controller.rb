@@ -23,13 +23,16 @@ module API
       id = params['id']
       http = nhl_api
       team = http.get NHLApi::Requests.team(id)
-      data = JSON.parse(team.data)['teams'][0]
-      data['roster']['roster'].map! do |player|
+      unless (data = JSON.parse(team.data)['teams'])
+        render plain: "Could not find team with ID: #{id}", status: :bad_request
+        return
+      end
+      data[0]['roster']['roster'].map! do |player|
         player['person']['portrait'] = NHLApi::Requests.player_portrait(player['person']['id'])
         player
       end
 
-      render json: data
+      render json: data[0]
     end
   end
 end
