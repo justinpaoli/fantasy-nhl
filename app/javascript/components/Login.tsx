@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Container, Header, Form, Button, Icon, Message, Divider, Segment } from 'semantic-ui-react';
-import Axios from 'axios';
+import Axios, { AxiosError } from 'axios';
 
-export default withRouter(function Login(props) {
+const Login = (props: RouteComponentProps) => {
   const [state, setState] = useState('default');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -17,13 +17,14 @@ export default withRouter(function Login(props) {
           username: username,
           password: password
         })
-        .then(response => {
+        .then((response) => {
           setState('default');
+          // @ts-ignore
           gon.global.user = response.data.user;
           props.history.push('/');
         })
-        .catch(error => {
-          setErrorMsg(error.response.data);
+        .catch((error: AxiosError) => {
+          setErrorMsg(error.response && error.response.data);
           setState('error');
         });
     };
@@ -31,9 +32,10 @@ export default withRouter(function Login(props) {
 
   //Redirect to Home if already logged in
   useEffect(() => {
+    // @ts-ignore
     if (gon.global.user) props.history.push('/');
   }, []);
-
+  
   return (
     <Container as={Segment} style={{
       position: 'absolute',
@@ -56,4 +58,6 @@ export default withRouter(function Login(props) {
       </Form>
     </Container>
   );
-});
+};
+
+export default withRouter(Login);
