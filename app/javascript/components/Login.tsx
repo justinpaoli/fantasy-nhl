@@ -1,13 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { Container, Header, Form, Button, Icon, Message, Divider, Segment } from 'semantic-ui-react';
+import { Header, Form, Button, Icon, Message, Divider, Segment } from 'semantic-ui-react';
 import Axios, { AxiosError } from 'axios';
+import useFormInputData from '../hooks/useFormInputData';
+import useRequireLoggedOut from '../hooks/useRequireLoggedOut';
+import ContainerCenteredVertical from './common/ContainerCenteredVertical';
+import ErrorMessage from './common/ErrorMessage';
 
-const Login = (props: RouteComponentProps) => {
-  const [state, setState] = useState('default');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+const Login: FunctionComponent<RouteComponentProps> = (props) => {
+  useRequireLoggedOut(props);
+
+  const { 
+    state, setState, 
+    fields: [username, password], 
+    setters: [setUsername, setPassword], 
+    errorMsgs, setErrorMsgs 
+  } = useFormInputData(2);
 
   const handleSubmit = () => {
     return () => {
@@ -24,29 +32,19 @@ const Login = (props: RouteComponentProps) => {
           props.history.push('/');
         })
         .catch((error: AxiosError) => {
-          setErrorMsg(error.response && error.response.data);
+          if (!error.response) return;
+          setErrorMsgs([error.response.data]);
           setState('error');
         });
     };
   }
-
-  //Redirect to Home if already logged in
-  useEffect(() => {
-    // @ts-ignore
-    if (gon.global.user) props.history.push('/');
-  }, []);
   
   return (
-    <Container as={Segment} style={{
-      position: 'absolute',
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)'
-    }}>
+    <ContainerCenteredVertical>
       <Header icon='lock' content='Login' />
       <Divider />
-      <Form loading={state === 'loading'} error={state === 'error'}>
-        <Message error header='Login Failed' content={errorMsg} />
+      <Form loading={state === 'loading'} error={state === 'error'} autoComplete='off'>
+      <ErrorMessage header='Registration Failed' errorMsgs={errorMsgs} />
         <Form.Input label='Username' name='username' onChange={e => setUsername(e.target.value)} />
         <Form.Input label='Password' name='password' type='password' onChange={e => setPassword(e.target.value)} />
         <Form.Button color='green' onClick={handleSubmit()} animated>
@@ -56,7 +54,7 @@ const Login = (props: RouteComponentProps) => {
           </Button.Content>
         </Form.Button>
       </Form>
-    </Container>
+    </ContainerCenteredVertical>
   );
 };
 

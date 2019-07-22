@@ -5,21 +5,30 @@ import Home from './Home';
 import Login from './Login';
 import Teams from './Teams';
 import Team from './Team';
+import Signup from './Signup';
 
 export default class App extends React.Component<RouteComponentProps<{}>> {
+  HIDE_NAVBAR_PATHS: Array<RegExp> = [
+    /login/,
+    /signup/
+  ]
+  
   constructor(props: RouteComponentProps) {
     super(props);
     // @ts-ignore
     if (!gon.global) gon.global = {};
   }
 
+  showNavBar = (): boolean => !this.HIDE_NAVBAR_PATHS.filter((path) => this.props.location.pathname.match(path)).length;
+
   render() {
     return (
       <div>
-        {this.props.location.pathname !== '/login' ? <NavBar /> : <div />}
+        {this.showNavBar() ? <NavBar /> : <div />}
         <Switch>
           <Route exact path='/' component={Home} />
           <Route exact path='/login' component={Login} />
+          <Route exact path='/signup' component={Signup} />
           <Route exact path='/teams' component={Teams} />
           <Route path='/team/:id' component={Team} />
         </Switch>
