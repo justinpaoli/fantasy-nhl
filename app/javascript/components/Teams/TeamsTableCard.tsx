@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Image, Card } from 'semantic-ui-react';
-import { TeamsTableCardProps } from './types';
+import { TeamsTableCardProps } from '../../types/teams';
 
 const TeamsTableCard: FunctionComponent<TeamsTableCardProps> = ({ data: { id, name, logo, conference, division } }) => {  
   return (

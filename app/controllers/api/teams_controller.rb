@@ -27,6 +27,7 @@ module API
         render plain: "Could not find team with ID: #{id}", status: :bad_request
         return
       end
+      data[0]['logo'] = NHLApi::Requests.team_logo(id)
       data[0]['roster']['roster'].map! do |player|
         player['person']['portrait'] = NHLApi::Requests.player_portrait(player['person']['id'])
         player

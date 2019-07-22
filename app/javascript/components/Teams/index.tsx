@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Axios, { AxiosResponse } from 'axios';
 import TeamsTable from './TeamsTable';
-import { TeamApiResponse, TeamsTableCardProps } from './types';
+import { Team, TeamsTableCardProps } from '../../types/teams';
 
 export default function Teams() {
   const [teams, setTeams] = useState<Array<TeamsTableCardProps>>([{
@@ -16,11 +16,11 @@ export default function Teams() {
 
   useEffect(() => {
     Axios
-      .get<TeamApiResponse[]>('/api/teams')
-      .then((response: AxiosResponse<Array<TeamApiResponse>>) => handleDataLoaded(response));
+      .get<Team[]>('/api/teams')
+      .then((response: AxiosResponse<Array<Team>>) => handleDataLoaded(response));
   }, []);
   
-  const handleDataLoaded: any = ((response: AxiosResponse<Array<TeamApiResponse>>) => {
+  const handleDataLoaded: any = ((response: AxiosResponse<Array<Team>>) => {
     setTeams(response.data.map(team => { return { data: team } as TeamsTableCardProps }));
   });
 
