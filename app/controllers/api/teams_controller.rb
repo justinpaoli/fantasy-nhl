@@ -14,7 +14,7 @@ module API
         team['logo'] = NHLApi::Requests.team_logo(team['id'])
         team
       end
-      data.sort! { |a, b| a['name'] <=> b['name']}
+      data.sort! { |a, b| a['name'] <=> b['name'] }
 
       render json: data
     end
@@ -32,6 +32,7 @@ module API
         player['person']['portrait'] = NHLApi::Requests.player_portrait(player['person']['id'])
         player
       end
+      data[0]['roster']['roster'].sort! { |a, b| a['person']['fullName'].split(' ')[1] <=> b['person']['fullName'].split(' ')[1] }
 
       render json: data[0]
     end
