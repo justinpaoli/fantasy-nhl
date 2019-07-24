@@ -1,4 +1,4 @@
-import { Player } from "./players";
+import { Player } from "../Team/types";
 import { RouteComponentProps } from "react-router";
 
 export interface Team {

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { PlayerListProps } from '../../types/players';
+import { PlayerListProps } from './types';
 import { List } from 'semantic-ui-react';
 import PlayerListItem from './PlayerListItem';
 

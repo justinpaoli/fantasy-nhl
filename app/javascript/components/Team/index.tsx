@@ -3,7 +3,7 @@ import React, { useEffect, useState, FunctionComponent } from 'react';
 import { SemanticToastContainer, toast } from 'react-semantic-toasts';
 import Axios, { AxiosError } from 'axios';
 import { Container, Header, Image } from 'semantic-ui-react';
-import { TeamProps, TeamWithRoster } from '../../types/teams';
+import { TeamProps, TeamWithRoster } from '../Teams/types';
 import PlayerList from './PlayerList';
 
 const Team: FunctionComponent<TeamProps> = (props) => {
