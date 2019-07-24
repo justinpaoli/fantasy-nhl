@@ -8,7 +8,7 @@ import { Container, Header } from 'semantic-ui-react';
 import { get } from 'lodash';
 
 const Teams: FunctionComponent = () => {
-  const MENU_STRUCTUTE: SubMenuFilterItem[] = [
+  const MENU_STRUCTURE: SubMenuFilterItem[] = [
     new SubMenuFilterItem('Eastern', 'Eastern Conference', { children: [
       new SubMenuFilterItem('Atlantic', 'Atlantic Divison', { property: 'division.name' }),
       new SubMenuFilterItem('Metropolitan', 'Metropolitan Divison', { property: 'division.name' })
@@ -47,7 +47,7 @@ const Teams: FunctionComponent = () => {
   return (
     <Container>
       <Header as='h1' textAlign='center'>Teams currently in the NHL</Header>
-      <SubMenuFilter structure={MENU_STRUCTUTE} onChange={handeFiltersChanged} />
+      <SubMenuFilter structure={MENU_STRUCTURE} onChange={handeFiltersChanged} />
       <TeamsTable data={visibleTeams} />
     </Container>
   );
