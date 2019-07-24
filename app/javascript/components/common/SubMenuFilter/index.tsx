@@ -27,6 +27,7 @@ const SubMenuFilter: FunctionComponent<SubMenuFilterProps> = ({ structure, onCha
   useEffect(() => setItems(structure), []);
 
   const generateSubMenus = (items: SubMenuFilterItem[], parent: SubMenuFilterItem | null = null): JSX.Element | null => (
+    // FIXME: UI is awkward here, ideally make the component not change height once it's loaded
     <Menu.Menu>
       {flatten(
         items.map(item => {
