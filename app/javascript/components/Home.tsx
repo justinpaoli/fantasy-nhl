@@ -1,9 +1,5 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
-const Home = () => {
-  return (
-    <div>Home</div>
-  );
-};
+const Home: FunctionComponent = () => <div>Home</div>
 
 export default Home;
