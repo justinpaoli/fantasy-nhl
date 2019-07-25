@@ -19,7 +19,7 @@ module API
       render json: data
     end
 
-    def team
+    def show
       id = params['id']
       http = nhl_api
       team = http.get NHLApi::Requests.team(id)

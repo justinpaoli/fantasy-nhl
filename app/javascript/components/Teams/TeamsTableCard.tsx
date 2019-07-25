@@ -4,7 +4,7 @@ import { TeamsTableCardProps } from './types';
 
 const TeamsTableCard: FunctionComponent<TeamsTableCardProps> = ({ data: { id, name, logo, conference, division } }) => {  
   return (
-    <Card href={`/team/${id}`}>
+    <Card href={`/teams/${id}`}>
       <Card.Content>
         <Image floated='right' size='tiny' src={logo} />
         <Card.Header>{name}</Card.Header>

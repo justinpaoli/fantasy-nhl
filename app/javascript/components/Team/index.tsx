@@ -19,7 +19,7 @@ const Team: FunctionComponent<TeamProps> = (props) => {
 
   useEffect(() => {
     Axios
-      .get(`/api/team/${id}`)
+      .get(`/api/teams/${id}`)
       .then(response => setTeam(response.data))
       .catch((error: AxiosError) => toast({
         type: 'error',

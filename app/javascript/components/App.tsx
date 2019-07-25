@@ -30,7 +30,7 @@ export default class App extends React.Component<RouteComponentProps<{}>> {
           <Route exact path='/login' component={Login} />
           <Route exact path='/signup' component={Signup} />
           <Route exact path='/teams' component={Teams} />
-          <Route path='/team/:id' component={Team} />
+          <Route path='/teams/:id' component={Team} />
         </Switch>
       </div>
     )

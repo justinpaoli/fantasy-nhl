@@ -3,10 +3,9 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import useFormInputData from '../hooks/useFormInputData';
 import useRequireLoggedOut from '../hooks/useRequireLoggedOut';
 import ContainerCenteredVertical from './common/ContainerCenteredVertical';
-import { Header, Divider, Form, Message, Button, Icon } from 'semantic-ui-react';
+import { Header, Divider, Form, Button, Icon } from 'semantic-ui-react';
 import Axios, { AxiosError } from 'axios';
 import ErrorMessage from './common/ErrorMessage';
-import { workerData } from 'worker_threads';
 
 const Signup: FunctionComponent<RouteComponentProps> = (props) => {
   useRequireLoggedOut(props);
@@ -22,7 +21,7 @@ const Signup: FunctionComponent<RouteComponentProps> = (props) => {
     return () => {
       setState('loading');
       Axios
-        .post('/users', {
+        .post('api/users', {
           user: {
             username: username,
             password: password,
