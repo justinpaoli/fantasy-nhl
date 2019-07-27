@@ -4,7 +4,7 @@ import TeamsTable from './TeamsTable';
 import { Team, TeamsTableCardProps } from './types';
 import SubMenuFilter from '../common/SubMenuFilter';
 import { SubMenuFilterItem, SubMenuFilterFilter } from '../common/SubMenuFilter/types';
-import { Container, Header } from 'semantic-ui-react';
+import { Container, Header, Divider } from 'semantic-ui-react';
 import { get } from 'lodash';
 
 const Teams: FunctionComponent = () => {
@@ -45,11 +45,16 @@ const Teams: FunctionComponent = () => {
 
 
   return (
-    <Container>
-      <Header as='h1' textAlign='center'>Teams currently in the NHL</Header>
-      <SubMenuFilter structure={MENU_STRUCTURE} onChange={handeFiltersChanged} />
-      <TeamsTable data={visibleTeams} />
-    </Container>
+    <div>
+      <Container textAlign='center'>
+        <Header as='h1' textAlign='center'>Teams currently in the NHL</Header>
+        <SubMenuFilter structure={MENU_STRUCTURE} onChange={handeFiltersChanged} />
+        <Divider />
+      </Container>
+      <Container>
+        <TeamsTable data={visibleTeams} />
+      </Container>
+    </div>
   );
 }
 

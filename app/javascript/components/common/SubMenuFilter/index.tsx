@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { SubMenuFilterProps, SubMenuFilterItem, SubMenuFilterFilter } from './types';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Container } from 'semantic-ui-react';
 import { flatten } from 'lodash';
 
 const SubMenuFilter: FunctionComponent<SubMenuFilterProps> = ({ structure, onChange }) => {
@@ -26,36 +26,30 @@ const SubMenuFilter: FunctionComponent<SubMenuFilterProps> = ({ structure, onCha
   useEffect(() => onChange(filters), [filters]);
   useEffect(() => setItems(structure), []);
 
-  const generateSubMenus = (items: SubMenuFilterItem[], parent: SubMenuFilterItem | null = null): JSX.Element | null => (
-    // FIXME: UI is awkward here, ideally make the component not change height once it's loaded
-    <Menu.Menu>
-      {flatten(
-        items.map(item => {
-          item.parent = parent
-          return [
-            <Menu.Item 
-              key={`${item.value}-display`}
-              active={item.isActive} 
-              onClick={() => { 
-                toggleItemActive(item);
-                updateActiveFilters();
-              }}
-            >
-              {item.display}
-            </Menu.Item>,
-            item.children && item.isActive ? 
-              <Menu.Item key={item.value}>
-                {generateSubMenus(item.children, item)}
-              </Menu.Item> 
-            : null
-          ]
-        })
-      )}
-    </Menu.Menu>
-  );
+  const generateSubMenus = (items: SubMenuFilterItem[], parent: SubMenuFilterItem | null = null): JSX.Element[] => {
+    const menuItems: JSX.Element[] = [];
+    items.forEach(item => {
+      item.parent = parent;
+      menuItems.push(
+        <Menu.Item 
+          key={`${item.value}-display`}
+          active={item.isActive}
+          onClick={() => { 
+            toggleItemActive(item);
+            updateActiveFilters();
+          }}
+        >
+          {item.display}
+        </Menu.Item>
+      );
+      if (item.children && item.isActive) menuItems.push(...generateSubMenus(item.children, item));
+    })
+
+    return menuItems;
+  };
   
   return (
-    <Menu>
+    <Menu fluid>
       {generateSubMenus(items)}
     </Menu>
   );

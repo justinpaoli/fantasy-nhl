@@ -33,8 +33,7 @@ export class SubMenuFilterItem {
   }
 
   collapseIfNoActiveChildren(): void {
-    if(!this.children) return;
-    this.isActive = this.children.filter(child => child.isActive).length > 0;
+    if(this.children && !this.children.filter(child => child.isActive).length) this.isActive = false;
   }
 }
 
