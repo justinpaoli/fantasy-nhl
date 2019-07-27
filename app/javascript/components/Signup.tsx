@@ -1,14 +1,15 @@
 import React, { FunctionComponent } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
 import useFormInputData from '../hooks/useFormInputData';
 import useRequireLoggedOut from '../hooks/useRequireLoggedOut';
 import ContainerCenteredVertical from './common/ContainerCenteredVertical';
 import { Header, Divider, Form, Button, Icon } from 'semantic-ui-react';
 import Axios, { AxiosError } from 'axios';
 import ErrorMessage from './common/ErrorMessage';
+import useRouter from 'use-react-router';
 
-const Signup: FunctionComponent<RouteComponentProps> = (props) => {
-  useRequireLoggedOut(props);
+const Signup: FunctionComponent = () => {
+  const { history } = useRouter();
+  useRequireLoggedOut();
   
   const {
     state, setState,
@@ -32,7 +33,7 @@ const Signup: FunctionComponent<RouteComponentProps> = (props) => {
           setState('default');
           // @ts-ignore
           gon.global.user = response.data.user;
-          props.history.push('/');
+          history.push('/');
         })
         .catch((error: AxiosError) => {
           if (!error.response) return;
@@ -72,4 +73,4 @@ const Signup: FunctionComponent<RouteComponentProps> = (props) => {
   );
 }
 
-export default withRouter(Signup);
+export default Signup;

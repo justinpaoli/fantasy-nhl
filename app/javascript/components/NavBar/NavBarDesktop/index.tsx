@@ -1,10 +1,12 @@
 import React, { useEffect, useState, FunctionComponent } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 import SignupLoginGroup from './SignupLoginGroup';
 import Logout from './Logout';
+import useRouter from 'use-react-router';
 
-const NavBarDesktop: FunctionComponent<RouteComponentProps> = (props) => {
+const NavBarDesktop: FunctionComponent = (props) => {
+  const { history } = useRouter();
+
   // @ts-ignore
   const [user, setUser] = useState(gon.global.user);
 
@@ -13,11 +15,12 @@ const NavBarDesktop: FunctionComponent<RouteComponentProps> = (props) => {
 
   const links = [
     { name: 'home', display: 'Home', href: '/' },
-    { name: 'teams', display: 'Teams', href: '/teams' }
+    { name: 'teams', display: 'Teams', href: '/teams' },
+    { name: 'leagues', display: 'Leagues', href: '/leagues' }
   ];
   
   const handleLinkClick: Function = (href: string) => {
-    return () => props.history.push(href);
+    return () => history.push(href);
   }
 
   return (
@@ -32,4 +35,4 @@ const NavBarDesktop: FunctionComponent<RouteComponentProps> = (props) => {
   );
 };
 
-export default withRouter(NavBarDesktop);
+export default NavBarDesktop;

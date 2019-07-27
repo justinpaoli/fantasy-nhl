@@ -1,14 +1,15 @@
 import React, { FunctionComponent } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { Header, Form, Button, Icon, Message, Divider, Segment } from 'semantic-ui-react';
+import { Header, Form, Button, Icon, Divider } from 'semantic-ui-react';
 import Axios, { AxiosError } from 'axios';
 import useFormInputData from '../hooks/useFormInputData';
 import useRequireLoggedOut from '../hooks/useRequireLoggedOut';
 import ContainerCenteredVertical from './common/ContainerCenteredVertical';
 import ErrorMessage from './common/ErrorMessage';
+import useRouter from 'use-react-router';
 
-const Login: FunctionComponent<RouteComponentProps> = (props) => {
-  useRequireLoggedOut(props);
+const Login: FunctionComponent = () => {
+  const { history } = useRouter();
+  useRequireLoggedOut();
 
   const { 
     state, setState, 
@@ -29,7 +30,7 @@ const Login: FunctionComponent<RouteComponentProps> = (props) => {
           setState('default');
           // @ts-ignore
           gon.global.user = response.data.user;
-          props.history.push('/');
+          history.push('/');
         })
         .catch((error: AxiosError) => {
           if (!error.response) return;
@@ -58,4 +59,4 @@ const Login: FunctionComponent<RouteComponentProps> = (props) => {
   );
 };
 
-export default withRouter(Login);
+export default Login;
