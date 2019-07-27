@@ -6,6 +6,7 @@ import { Header, Divider, Form, Button, Icon } from 'semantic-ui-react';
 import Axios, { AxiosError } from 'axios';
 import ErrorMessage from './common/ErrorMessage';
 import useRouter from 'use-react-router';
+import { startCase } from 'lodash';
 
 const Signup: FunctionComponent = () => {
   const { history } = useRouter();
@@ -40,9 +41,7 @@ const Signup: FunctionComponent = () => {
           const data: any = error.response.data;
           const errors: string[] = [];
           Object.keys(data).forEach(property => {
-            const formattedProperty: string = property.split('_')
-                                                      .map(word => word[0].toUpperCase() + word.substr(1))
-                                                      .join(' ');
+            const formattedProperty: string = startCase(property);
             const message: string = data[property];
             errors.push(formattedProperty + ": " + message)
           });
