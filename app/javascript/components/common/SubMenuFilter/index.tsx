@@ -21,8 +21,6 @@ const SubMenuFilter: FunctionComponent<SubMenuFilterProps> = ({ structure, onCha
         .filter(item => item.isActive && item.property)
         .map(item => ({ property: item.property, value: item.value } as SubMenuFilterFilter))
     )
-
-    console.log(label);
   };
 
   useEffect(() => onChange(filters), [filters]);
