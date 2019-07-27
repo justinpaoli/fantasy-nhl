@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { SubMenuFilterProps, SubMenuFilterItem, SubMenuFilterFilter } from './types';
-import { Menu, Container } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import { flatten } from 'lodash';
 
-const SubMenuFilter: FunctionComponent<SubMenuFilterProps> = ({ structure, onChange }) => {
+const SubMenuFilter: FunctionComponent<SubMenuFilterProps> = ({ structure, onChange, label }) => {
   const [filters, setFilters] = useState<SubMenuFilterFilter[]>([]);
   const [items, setItems] = useState<SubMenuFilterItem[]>([]);
   
@@ -21,6 +21,8 @@ const SubMenuFilter: FunctionComponent<SubMenuFilterProps> = ({ structure, onCha
         .filter(item => item.isActive && item.property)
         .map(item => ({ property: item.property, value: item.value } as SubMenuFilterFilter))
     )
+
+    console.log(label);
   };
 
   useEffect(() => onChange(filters), [filters]);
@@ -31,27 +33,30 @@ const SubMenuFilter: FunctionComponent<SubMenuFilterProps> = ({ structure, onCha
     items.forEach(item => {
       item.parent = parent;
       menuItems.push(
-        <Menu.Item 
+        <Grid.Column
           key={`${item.value}-display`}
-          active={item.isActive}
+          color={item.isActive ? item.colour : undefined}
           onClick={() => { 
             toggleItemActive(item);
             updateActiveFilters();
           }}
         >
           {item.display}
-        </Menu.Item>
+        </Grid.Column>
       );
       if (item.children && item.isActive) menuItems.push(...generateSubMenus(item.children, item));
-    })
+    });
 
     return menuItems;
   };
   
   return (
-    <Menu fluid>
-      {generateSubMenus(items)}
-    </Menu>
+    <Grid>
+      <Grid.Row columns='equal'>
+        {label ? <Grid.Column color='black'>{label}</Grid.Column>  : null}
+        {generateSubMenus(items)}
+      </Grid.Row>
+    </Grid>
   );
 }
 

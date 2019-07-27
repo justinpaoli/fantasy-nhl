@@ -9,13 +9,13 @@ import { get } from 'lodash';
 
 const Teams: FunctionComponent = () => {
   const MENU_STRUCTURE: SubMenuFilterItem[] = [
-    new SubMenuFilterItem('Eastern', 'Eastern Conference', { children: [
-      new SubMenuFilterItem('Atlantic', 'Atlantic Divison', { property: 'division.name' }),
-      new SubMenuFilterItem('Metropolitan', 'Metropolitan Divison', { property: 'division.name' })
+    new SubMenuFilterItem('Eastern', 'Eastern Conference', { colour: 'red', children: [
+      new SubMenuFilterItem('Atlantic', 'Atlantic Divison', { property: 'division.name', colour: 'orange' }),
+      new SubMenuFilterItem('Metropolitan', 'Metropolitan Divison', { property: 'division.name', colour: 'orange' })
     ]}), 
-    new SubMenuFilterItem('West', 'Western Conference', { children: [
-      new SubMenuFilterItem('Central', 'Central Divison', { property: 'division.name' }),
-      new SubMenuFilterItem('Pacific', 'Pacific Divison', { property: 'division.name' })
+    new SubMenuFilterItem('West', 'Western Conference', { colour: 'violet', children: [
+      new SubMenuFilterItem('Central', 'Central Divison', { property: 'division.name', colour: 'blue' }),
+      new SubMenuFilterItem('Pacific', 'Pacific Divison', { property: 'division.name', colour: 'blue' })
     ]})
   ]
   
@@ -43,15 +43,16 @@ const Teams: FunctionComponent = () => {
     )
   );
 
-
   return (
     <div>
       <Container textAlign='center'>
-        <Header as='h1' textAlign='center'>Teams currently in the NHL</Header>
-        <SubMenuFilter structure={MENU_STRUCTURE} onChange={handeFiltersChanged} />
-        <Divider />
+        <Header as='h1'>Teams currently in the NHL</Header>
+        <br />
+        <SubMenuFilter structure={MENU_STRUCTURE} onChange={handeFiltersChanged} label='Filter:' />
       </Container>
+      <br />
       <Container>
+         <Divider />
         <TeamsTable data={visibleTeams} />
       </Container>
     </div>

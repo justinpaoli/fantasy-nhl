@@ -1,6 +1,9 @@
+import { SemanticCOLORS } from "semantic-ui-react/dist/commonjs/generic";
+
 interface SubMenuFilterOptionalParams {
-  children?: SubMenuFilterItem[]
+  children?: SubMenuFilterItem[];
   property?: string;
+  colour?: SemanticCOLORS;
 }
 
 export class SubMenuFilterItem {
@@ -10,6 +13,7 @@ export class SubMenuFilterItem {
   parent?: SubMenuFilterItem | null;
   children?: SubMenuFilterItem[];
   property?: string;
+  colour?: SemanticCOLORS;
 
   constructor(value: string, display: string, optionalParams?: SubMenuFilterOptionalParams) {
     this.value = value;
@@ -18,6 +22,7 @@ export class SubMenuFilterItem {
     if(optionalParams) {
       if (optionalParams.children) this.children = optionalParams.children;
       if (optionalParams.property) this.property = optionalParams.property;
+      if (optionalParams.colour) this.colour = optionalParams.colour
     }
   }
 
@@ -38,11 +43,12 @@ export class SubMenuFilterItem {
 }
 
 export interface SubMenuFilterProps {
-  structure: SubMenuFilterItem[]
-  onChange: (filters: SubMenuFilterFilter[]) => void 
+  structure: SubMenuFilterItem[];
+  onChange: (filters: SubMenuFilterFilter[]) => void;
+  label?: string;
 }
 
 export interface SubMenuFilterFilter {
-  property: string
-  value: string
+  property: string;
+  value: string;
 }
