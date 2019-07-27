@@ -1,24 +1,16 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Overview
 
-Things you may want to cover:
+This is an fantasy hockey web application undergoing active development with the goal of gaining experience in both front-end and back-end development. The user interface is built using [React](https://reactjs.org/) and [Semantic UI](https://react.semantic-ui.com/), and the API and database are handled by [Ruby on Rails](https://rubyonrails.org/).
 
-* Ruby version
+## Dependencies
+This application runs on Ruby 2.5.5.
 
-* System dependencies
+## Deployment
+Clone this reponsitory, then install the ruby and javascript dependencies with:  
+`bundle install`  
+`yarn install`
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+To configure the database: `rails db:schema:load`  
+To run the server: `rails s`
