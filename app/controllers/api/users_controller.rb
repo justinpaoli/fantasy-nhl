@@ -29,7 +29,9 @@ module API
       @user = User.new(user_params)
 
       if @user.save
-        render json: { message: "Successfully created user: #{@user.username}", user: @user.username }, status: :created
+        session[:user_id] = @user.id
+        gon.global.user = { id: @user.id, username: @user.username }
+        render json: { message: "Successfully created user: #{@user.username}", user: gon.global.user }, status: :created
       else
         render json: @user.errors, status: :unprocessable_entity
       end

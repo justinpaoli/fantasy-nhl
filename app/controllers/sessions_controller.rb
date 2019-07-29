@@ -4,15 +4,15 @@ class SessionsController < ApplicationController
 
     if @user&.authenticate(params[:password])
       session[:user_id] = @user.id
-      gon.global.user = @user.username
-      render json: { message: "Successfully logged in user: #{@user.username}", user: @user.username }, status: :ok
+      gon.global.user = { id: @user.id, username: @user.username }
+      render json: { message: "Successfully logged in user: #{@user.username}", user: gon.global.user }, status: :ok
     else
       render plain: 'Incorrect username or password', status: :unauthorized
     end
   end
 
   def destroy
-    user = gon.global.user
+    user = gon.global.user.username
     session[:user_id] = nil
     gon.global.user = nil
     render plain: "Successfully logged out user: #{user}"

@@ -8,10 +8,10 @@ const NavBarDesktop: FunctionComponent = (props) => {
   const { history } = useRouter();
 
   // @ts-ignore
-  const [user, setUser] = useState(gon.global.user);
+  const [user, setUser] = useState(gon.global.user ? gon.global.user.username : null);
 
   // @ts-ignore
-  useEffect(() => setUser(gon.global.user), [gon.global.user])
+  useEffect(() => setUser(gon.global.user ? gon.global.user.username : null), [gon.global.user])
 
   const links = [
     { name: 'home', display: 'Home', href: '/' },

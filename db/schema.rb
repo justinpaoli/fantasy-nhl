@@ -14,8 +14,11 @@ ActiveRecord::Schema.define(version: 2019_07_25_010143) do
 
   create_table "leagues", force: :cascade do |t|
     t.integer "owner"
+    t.string "state"
+    t.string "name"
+    t.string "season"
     t.string "rules"
-    t.string "teamIds"
+    t.string "team_ids"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

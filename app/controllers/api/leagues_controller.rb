@@ -28,14 +28,10 @@ module API
     def create
       @league = League.new(league_params)
 
-      respond_to do |format|
-        if @league.save
-          format.html { redirect_to @league, notice: 'League was successfully created.' }
-          format.json { render :show, status: :created, location: @league }
-        else
-          format.html { render :new }
-          format.json { render json: @league.errors, status: :unprocessable_entity }
-        end
+      if @league.save
+        render json: @league, status: :created
+      else
+        render json: @league.errors, status: :unprocessable_entity
       end
     end
 
@@ -69,7 +65,7 @@ module API
 
       # Never trust parameters from the scary internet, only allow the white list through.
       def league_params
-        params.require(:league).permit(:owner, :rules, :teamIds)
+        params.require(:league).permit(:owner, :state, :name, :season, :rules, :team_ids)
       end
   end
 end
