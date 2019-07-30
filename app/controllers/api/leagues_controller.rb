@@ -1,6 +1,8 @@
 module API
   class LeaguesController < ApplicationController
     before_action :set_league, only: [:show, :edit, :update, :destroy]
+    before_action :authenticate_user, only: [:create]
+    before_action :validate_owner, only: [:update, :destroy]
 
     # GET /leagues
     # GET /leagues.json
@@ -12,15 +14,7 @@ module API
     # GET /leagues/1
     # GET /leagues/1.json
     def show
-    end
-
-    # GET /leagues/new
-    def new
-      @league = League.new
-    end
-
-    # GET /leagues/1/edit
-    def edit
+      render json: @league, status: :ok
     end
 
     # POST /leagues
@@ -38,12 +32,10 @@ module API
     # PATCH/PUT /leagues/1
     # PATCH/PUT /leagues/1.json
     def update
-      respond_to do |format|
-        if @league.update(league_params)
-          format.json { render :show, status: :ok, location: @league }
-        else
-          format.json { render json: @league.errors, status: :unprocessable_entity }
-        end
+      if @league.update(league_params)
+        format.json { render :show, status: :ok, location: @league }
+      else
+        format.json { render json: @league.errors, status: :unprocessable_entity }
       end
     end
 
@@ -66,6 +58,20 @@ module API
       # Never trust parameters from the scary internet, only allow the white list through.
       def league_params
         params.require(:league).permit(:owner, :state, :name, :season, :rules, :team_ids)
+      end
+
+      def authenticate_user
+        unless league_params[:owner] == session[:user_id]
+          render plain: 'Failed to authenticate user', status: :unauthorized
+          raise '401 Unauthorized'
+        end
+      end
+
+      def validate_owner
+        unless session[:user_id] == @league.owner
+          render plain: 'Failed to authenticate league owner', status: :unauthorized
+          raise '401 Unauthorized'
+        end
       end
   end
 end

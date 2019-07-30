@@ -3,10 +3,14 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: 'json' } do
     get '/leagues', to: 'leagues#index'
+    get '/leagues/:id', to: 'leagues#show'
     post '/leagues', to: 'leagues#create'
 
+    get '/player_teams', to: 'player_teams#index'
+    post '/player_teams', to: 'player_teams#create'
+
     get '/teams', to: 'teams#index'
-    get '/teams/:id/', to: 'teams#show'
+    get '/teams/:id', to: 'teams#show'
 
     get '/seasons/current', to: 'seasons#current'
 

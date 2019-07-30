@@ -3,8 +3,7 @@ export interface League {
   state: string,
   name: string,
   season: string,
-  rules: LeagueRules,
-  teamIds: string
+  rules: LeagueRules
 }
 
 export interface LeagueRules {

@@ -66,8 +66,7 @@ const CreateLeagueForm: FunctionComponent = () => {
             state: 'created',
             name: name,
             season: season,
-            rules: stringifyRules(),
-            team_ids: ''
+            rules: stringifyRules()
           }
         })
         .then(_response => {
