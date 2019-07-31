@@ -2,23 +2,33 @@ Rails.application.routes.draw do
   root 'pages#index'
 
   namespace :api, defaults: { format: 'json' } do
-    get '/leagues', to: 'leagues#index'
-    get '/leagues/:id', to: 'leagues#show'
-    post '/leagues', to: 'leagues#create'
+    controller :leagues do
+      get 'leagues' => :index
+      get 'leagues/:id' => :show
+      post 'leagues' => :create
+    end
 
-    get '/player_teams', to: 'player_teams#index'
-    get '/player_teams/:id', to: 'player_teams#show'
-    post '/player_teams', to: 'player_teams#create'
-    put '/player_teams/:id', to: 'player_teams#update'
+    controller :player_teams do
+      get ':player_teams' => :index
+      get ':player_teams/:id' => :show
+      post ':player_teams' => :create
+      put '/player_teams/:id' => :update
+    end
 
-    get '/teams', to: 'teams#index'
-    get '/teams/:id', to: 'teams#show'
+    controller :teams do
+      get ':teams' => :index
+      get ':teams/:id' => :show
+    end
 
-    get '/seasons/current', to: 'seasons#current'
+    controller :seasons do
+      get '/seasons/current' => :current
+    end
 
-    # ONLY ENABLE THIS GET ENDPOINT FOR DEBUGGING
-    # get 'users', to: 'users#index'
-    post '/users', to: 'users#create'
+    controller :users do
+      # ONLY ENABLE THIS GET ENDPOINT FOR DEBUGGING
+      # get 'users' => :index
+      post '/users' => :create
+    end
   end
 
   controller :sessions do
