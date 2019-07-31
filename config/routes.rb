@@ -7,7 +7,9 @@ Rails.application.routes.draw do
     post '/leagues', to: 'leagues#create'
 
     get '/player_teams', to: 'player_teams#index'
+    get '/player_teams/:id', to: 'player_teams#show'
     post '/player_teams', to: 'player_teams#create'
+    put '/player_teams/:id', to: 'player_teams#update'
 
     get '/teams', to: 'teams#index'
     get '/teams/:id', to: 'teams#show'

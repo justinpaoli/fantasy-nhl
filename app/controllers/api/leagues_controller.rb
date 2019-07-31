@@ -61,17 +61,11 @@ module API
       end
 
       def authenticate_user
-        unless league_params[:owner] == session[:user_id]
-          render plain: 'Failed to authenticate user', status: :unauthorized
-          raise '401 Unauthorized'
-        end
+        render plain: 'Failed to authenticate user', status: :unauthorized unless league_params[:user_id] == session[:user_id]
       end
 
       def validate_owner
-        unless session[:user_id] == @league.owner
-          render plain: 'Failed to authenticate league owner', status: :unauthorized
-          raise '401 Unauthorized'
-        end
+        render plain: 'Failed to authenticate league owner', status: :forbidden unless session[:user_id] == @league.user_id
       end
   end
 end

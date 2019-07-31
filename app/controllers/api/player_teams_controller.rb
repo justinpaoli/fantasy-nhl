@@ -14,6 +14,7 @@ module API
     # GET /player_teams/1
     # GET /player_teams/1.json
     def show
+      render json: @player_team, status: :ok
     end
 
     # POST /player_teams
@@ -28,17 +29,13 @@ module API
       end
     end
 
-    # PATCH/PUT /player_teams/1
-    # PATCH/PUT /player_teams/1.json
+    # PUT /player_teams/1
+    # PUT /player_teams/1.json
     def update
-      respond_to do |format|
-        if @player_team.update(player_team_params)
-          format.html { redirect_to @player_team, notice: 'Player team was successfully updated.' }
-          format.json { render :show, status: :ok, location: @player_team }
-        else
-          format.html { render :edit }
-          format.json { render json: @player_team.errors, status: :unprocessable_entity }
-        end
+      if @player_team.update(player_team_params)
+        render json: @player_team, status: :ok
+      else
+        render json: @player_team.errors, status: :unprocessable_entity
       end
     end
 
@@ -64,17 +61,11 @@ module API
       end
 
       def authenticate_user
-        unless player_team_params[:user_id] == session[:user_id]
-          render plain: 'Failed to authenticate user', status: :unauthorized
-          raise '401 Unauthorized'
-        end
+        render plain: 'Failed to authenticate user', status: :unauthorized unless player_team_params[:user_id] == session[:user_id]
       end
 
       def validate_owner
-        unless session[:user_id] == @player_team.user_id
-          render plain: 'Failed to authenticate league owner', status: :unauthorized
-          raise '401 Unauthorized'
-        end
+        render plain: 'Failed to authenticate team owner', status: :forbidden unless session[:user_id] == @player_team.user_id
       end
   end
 end
