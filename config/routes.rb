@@ -9,19 +9,19 @@ Rails.application.routes.draw do
     end
 
     controller :player_teams do
-      get ':player_teams' => :index
-      get ':player_teams/:id' => :show
-      post ':player_teams' => :create
-      put '/player_teams/:id' => :update
+      get 'player_teams' => :index
+      get 'player_teams/:id' => :show
+      post 'player_teams' => :create
+      put 'player_teams/:id' => :update
     end
 
     controller :teams do
-      get ':teams' => :index
-      get ':teams/:id' => :show
+      get 'teams' => :index
+      get 'teams/:id' => :show
     end
 
     controller :seasons do
-      get '/seasons/current' => :current
+      get 'seasons/current' => :current
     end
 
     controller :users do
