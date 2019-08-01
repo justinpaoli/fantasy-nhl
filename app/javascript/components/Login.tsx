@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { Header, Form, Button, Icon, Divider } from 'semantic-ui-react';
 import Axios, { AxiosError } from 'axios';
 import useFormInputData from '../hooks/useFormInputData';
@@ -6,9 +6,12 @@ import useRequireLoggedOut from '../hooks/useRequireLoggedOut';
 import ContainerCenteredVertical from './common/ContainerCenteredVertical';
 import ErrorMessage from './common/ErrorMessage';
 import useRouter from 'use-react-router';
+import { UserContext } from './User/UserProvider';
+import { User } from './User/types';
 
 const Login: FunctionComponent = () => {
   const { history } = useRouter();
+  const { updateUser } = useContext(UserContext);
   useRequireLoggedOut();
 
   const { 
@@ -23,13 +26,17 @@ const Login: FunctionComponent = () => {
       setState('loading');
       Axios
         .post('/login', {
-          username: username,
-          password: password
+          auth: {
+            username: username,
+            password: password
+          }
         })
         .then((response) => {
           setState('default');
-          // @ts-ignore
-          gon.global.user = response.data.user;
+          updateUser({
+            username: username,
+            jwt: response.data.jwt
+          } as User);
           history.push('/');
         })
         .catch((error: AxiosError) => {

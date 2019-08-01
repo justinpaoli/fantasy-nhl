@@ -2,9 +2,11 @@ import React, { useState, FunctionComponent } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 import Axios, { AxiosError } from 'axios';
+import { User } from '../../User/types';
 
 interface LogoutProps extends RouteComponentProps {
   user: string
+  callback: (user: User) => void
 };
 
 const Logout: FunctionComponent<LogoutProps> = (props) => {
@@ -17,8 +19,7 @@ const Logout: FunctionComponent<LogoutProps> = (props) => {
         .delete('/logout')
         .then(_response => {
           setLoading(false);
-          // @ts-ignore
-          gon.global.user = null;
+          props.callback({} as User);
           props.history.push('/');
         })
         .catch((_error: AxiosError) => {

@@ -9,6 +9,7 @@ import Signup from './Signup';
 import Leagues from './Leagues';
 import CreateLeagueForm from './Leagues/CreateLeagueForm';
 import CreateTeamForm from './PlayerTeam/CreateTeamForm';
+import UserProvider from './User/UserProvider';
 
 export default class App extends React.Component<RouteComponentProps<{}>> {
   HIDE_NAVBAR_PATHS: Array<RegExp> = [
@@ -26,7 +27,7 @@ export default class App extends React.Component<RouteComponentProps<{}>> {
 
   render() {
     return (
-      <div>
+      <UserProvider>
         {this.showNavBar() ? <NavBar /> : <div />}
         <Switch>
           <Route exact path='/' component={Home} />
@@ -40,7 +41,7 @@ export default class App extends React.Component<RouteComponentProps<{}>> {
           <Route exact path='/teams' component={Teams} />
           <Route path='/teams/:id' component={Team} />
         </Switch>
-      </div>
+      </UserProvider>
     )
   }
 }

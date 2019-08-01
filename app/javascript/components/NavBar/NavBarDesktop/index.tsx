@@ -1,17 +1,13 @@
-import React, { useEffect, useState, FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { Menu } from 'semantic-ui-react';
 import SignupLoginGroup from './SignupLoginGroup';
 import Logout from './Logout';
 import useRouter from 'use-react-router';
+import { UserContext } from '../../User/UserProvider';
 
-const NavBarDesktop: FunctionComponent = (props) => {
+const NavBarDesktop: FunctionComponent = () => {
   const { history } = useRouter();
-
-  // @ts-ignore
-  const [user, setUser] = useState(gon.global.user ? gon.global.user.username : null);
-
-  // @ts-ignore
-  useEffect(() => setUser(gon.global.user ? gon.global.user.username : null), [gon.global.user])
+  const { user: { username }, updateUser } = useContext(UserContext);
 
   const links = [
     { name: 'home', display: 'Home', href: '/' },
@@ -28,7 +24,7 @@ const NavBarDesktop: FunctionComponent = (props) => {
       {links.map((link) => <Menu.Item key={link.name} name={link.name} content={link.display} onClick={handleLinkClick(link.href)} />)}
       <Menu.Menu position='right'>
         <Menu.Item>
-          {user ? <Logout user={user} /> : <SignupLoginGroup />}
+          {username ? <Logout user={username} callback={updateUser} /> : <SignupLoginGroup />}
         </Menu.Item>
       </Menu.Menu>
     </Menu>
