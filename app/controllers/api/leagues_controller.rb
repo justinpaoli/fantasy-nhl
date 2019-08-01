@@ -1,8 +1,7 @@
 module API
   class LeaguesController < ApplicationController
+    before_action :authenticate_user
     before_action :set_league, only: [:show, :edit, :update, :destroy]
-    before_action :authenticate_user, only: [:create]
-    before_action :validate_owner, only: [:update, :destroy]
 
     # GET /leagues
     # GET /leagues.json
@@ -21,6 +20,8 @@ module API
     # POST /leagues.json
     def create
       @league = League.new(league_params)
+      @league.owner = current_user.id
+      @league.state = 'created'
 
       if @league.save
         render json: @league, status: :created
@@ -58,14 +59,6 @@ module API
       # Never trust parameters from the scary internet, only allow the white list through.
       def league_params
         params.require(:league).permit(:owner, :state, :name, :season, :rules, :team_ids)
-      end
-
-      def authenticate_user
-        render plain: 'Failed to authenticate user', status: :unauthorized unless league_params[:user_id] == session[:user_id]
-      end
-
-      def validate_owner
-        render plain: 'Failed to authenticate league owner', status: :forbidden unless session[:user_id] == @league.user_id
       end
   end
 end

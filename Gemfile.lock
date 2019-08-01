@@ -84,6 +84,11 @@ GEM
     io-like (0.3.0)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
+    jwt (1.5.6)
+    knock (2.1.1)
+      bcrypt (~> 3.1)
+      jwt (~> 1.5)
+      rails (>= 4.2)
     loofah (2.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -211,6 +216,7 @@ DEPENDENCIES
   duktape
   gon
   jbuilder (~> 2.5)
+  knock
   nice_http
   puma (~> 3.11)
   rails (~> 5.2.3)

@@ -1,6 +1,6 @@
 module API
   class UsersController < ApplicationController
-    before_action :set_user, only: [:show, :edit, :update, :destroy]
+    before_action :authenticate_user, :set_user, only: [:show, :edit, :update, :destroy]
 
     # GET /users
     # GET /users.json
@@ -29,9 +29,8 @@ module API
       @user = User.new(user_params)
 
       if @user.save
-        session[:user_id] = @user.id
-        gon.global.user = { id: @user.id, username: @user.username }
-        render json: { message: "Successfully created user: #{@user.username}", user: gon.global.user }, status: :created
+        auth_token = Knock::AuthToken.new(payload: { sub: @user.id })
+        render json: auth_token, status: :created
       else
         render json: @user.errors, status: :unprocessable_entity
       end

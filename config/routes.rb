@@ -27,14 +27,11 @@ Rails.application.routes.draw do
     controller :users do
       # ONLY ENABLE THIS GET ENDPOINT FOR DEBUGGING
       # get 'users' => :index
-      post '/users' => :create
+      post 'users' => :create
     end
   end
 
-  controller :sessions do
-    post 'login' => :create
-    delete 'logout' => :destroy
-  end
+  post 'login' => 'user_token#create'
 
   match '*path', to: 'pages#index', via: :all
 end

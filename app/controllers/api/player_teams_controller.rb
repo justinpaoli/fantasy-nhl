@@ -1,8 +1,7 @@
 module API
   class PlayerTeamsController < ApplicationController
+    before_action :authenticate_user
     before_action :set_player_team, only: [:show, :edit, :update, :destroy]
-    before_action :authenticate_user, only: [:create]
-    before_action :validate_owner, only: [:update, :destroy]
 
     # GET /player_teams
     # GET /player_teams.json
@@ -21,6 +20,7 @@ module API
     # POST /player_teams.json
     def create
       @player_team = PlayerTeam.new(player_team_params)
+      @player_team.user_id = current_user.id
 
       if @player_team.save
         render json: @player_team, status: :created
@@ -58,14 +58,6 @@ module API
       # Never trust parameters from the scary internet, only allow the white list through.
       def player_team_params
         params.require(:player_team).permit(:user_id, :league_id, :name, :roster)
-      end
-
-      def authenticate_user
-        render plain: 'Failed to authenticate user', status: :unauthorized unless player_team_params[:user_id] == session[:user_id]
-      end
-
-      def validate_owner
-        render plain: 'Failed to authenticate team owner', status: :forbidden unless session[:user_id] == @player_team.user_id
       end
   end
 end
