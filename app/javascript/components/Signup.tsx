@@ -41,7 +41,7 @@ const Signup: FunctionComponent = () => {
             jwt: response.data.jwt
           } as User);
           const redirect_url = queryString.parse(location.search).redirect_url as string;
-          history.push(decodeURIComponent(redirect_url) || '/');
+          history.push(redirect_url ? decodeURIComponent(redirect_url) : '/');
         })
         .catch((error: AxiosError) => {
           if (!error.response) return;
