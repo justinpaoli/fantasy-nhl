@@ -8,6 +8,7 @@ import ErrorMessage from './common/ErrorMessage';
 import useRouter from 'use-react-router';
 import { UserContext } from './User/UserProvider';
 import { User } from './User/types';
+import queryString from 'query-string';
 
 const Login: FunctionComponent = () => {
   const { history } = useRouter();
@@ -37,7 +38,8 @@ const Login: FunctionComponent = () => {
             username: username,
             jwt: response.data.jwt
           } as User);
-          history.push('/');
+          const redirect_url = queryString.parse(location.search).redirect_url as string;
+          history.push(decodeURIComponent(redirect_url) || '/');
         })
         .catch((error: AxiosError) => {
           if (!error.response) return;
