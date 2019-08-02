@@ -2,6 +2,7 @@ import React, { useState, FunctionComponent } from 'react';
 import { Button } from 'semantic-ui-react';
 import Axios, { AxiosError } from 'axios';
 import { User } from '../../User/types';
+import useRouter from 'use-react-router';
 
 interface LogoutProps {
   user: string
@@ -10,6 +11,7 @@ interface LogoutProps {
 
 const Logout: FunctionComponent<LogoutProps> = (props) => {
   const [loading, setLoading] = useState(false);
+  const { history } = useRouter();
 
   const handleLogout = () => {
     return () => {
@@ -19,6 +21,7 @@ const Logout: FunctionComponent<LogoutProps> = (props) => {
         .then(_response => {
           setLoading(false);
           props.callback({} as User);
+          location.reload();
         })
         .catch((_error: AxiosError) => {
           setLoading(false);
