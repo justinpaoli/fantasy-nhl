@@ -14,11 +14,6 @@ const Draft: FunctionComponent<DraftProps> = (props) => {
     getLeagueTeamsById(props.match.params.leagueId).then(response => setTeams(response.data));
   }, []);
 
-  // TODO: Strong type this
-  const handleRecievedMessage = (response: any) => {
-    console.log(response);
-  }
-
   return (
     <Fragment>
       {teams.map(team => (
