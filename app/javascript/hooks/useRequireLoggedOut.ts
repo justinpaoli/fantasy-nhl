@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import useRouter from 'use-react-router';
+import { UserContext } from '../components/User/UserProvider';
 
 const useRequireLoggedOut = (): void => {
-  //Redirect to Login if not already logged in
-  const { history } = useRouter();
   //Redirect to Home if already logged in
+  const { history } = useRouter();
+  const { user } = useContext(UserContext);
   useEffect(() => {
-    // @ts-ignore
-    if (gon.global.user) history.push('/');
+    if (user.username) history.push('/');
   }, []);
 }
 
