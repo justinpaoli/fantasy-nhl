@@ -1,7 +1,7 @@
 module API
   class LeaguesController < ApplicationController
     before_action :authenticate_user
-    before_action :set_league, only: [:show, :edit, :update, :destroy]
+    before_action :set_league, only: [:show, :teams, :edit, :update, :destroy]
 
     # GET /leagues
     # GET /leagues.json
@@ -14,6 +14,10 @@ module API
     # GET /leagues/1.json
     def show
       render json: @league, status: :ok
+    end
+
+    def teams
+      render json: @league.player_teams, status: :ok
     end
 
     # POST /leagues

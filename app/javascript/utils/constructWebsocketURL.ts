@@ -1,0 +1,1 @@
+export const constructWebsocketURL = (): string => `${location.protocol.replace('http', 'ws')}//${location.host}/cable`;

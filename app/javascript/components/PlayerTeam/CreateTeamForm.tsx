@@ -7,10 +7,13 @@ import ContainerCenteredVertical from '../common/ContainerCenteredVertical';
 import { Header, Divider, Form, Button, Icon } from 'semantic-ui-react';
 import { League } from '../Leagues/types';
 import getLeagueById from '../../utils/getLeagueById';
+import useRequireLoggedIn from '../../hooks/useRequireLoggedIn';
 
 const CreateTeamForm: FunctionComponent<CreateTeamProps> = (props) => {
+  useRequireLoggedIn();
+
   const leagueId = props.match.params.leagueId;
-  const [league, setLeague] = useState({ name: 'skrrr' } as League);
+  const [league, setLeague] = useState({ name: '' } as League);
   const { history } = useRouter();
   const {
     state, setState,
@@ -28,8 +31,6 @@ const CreateTeamForm: FunctionComponent<CreateTeamProps> = (props) => {
       Axios
         .post<PlayerTeam>('/api/player_teams', {
           player_team: {
-            // @ts-ignore
-            user_id: gon.global.user.id,
             league_id: leagueId,
             name: name,
             roster: ''

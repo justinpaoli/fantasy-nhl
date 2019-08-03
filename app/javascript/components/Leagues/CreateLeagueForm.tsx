@@ -61,9 +61,6 @@ const CreateLeagueForm: FunctionComponent = () => {
       Axios
         .post('/api/leagues', {
           league: {
-            // @ts-ignore
-            owner: gon.global.user.id,
-            state: 'created',
             name: name,
             season: season,
             rules: stringifyRules()

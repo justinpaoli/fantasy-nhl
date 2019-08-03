@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
   root 'pages#index'
+  mount ActionCable.server => '/cable'
 
   namespace :api, defaults: { format: 'json' } do
     controller :leagues do
       get 'leagues' => :index
       get 'leagues/:id' => :show
+      get 'leagues/:id/teams' => :teams
       post 'leagues' => :create
     end
 
