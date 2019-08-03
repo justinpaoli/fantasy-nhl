@@ -14,14 +14,9 @@ const UserProvider: FunctionComponent = (props) => {
     localStorage.setItem('user', JSON.stringify(user));
   };
   const context = {
-    user: user,
+    user: JSON.parse(localStorage.getItem('user') || '') as User,
     updateUser: updateUser
   } as IUserContext;
-
-  useEffect(() => {
-    const user = localStorage.getItem('user')
-    if(user) updateUser(JSON.parse(user) as User);
-  }, []);
 
   return (
     <UserContext.Provider value={context}>
