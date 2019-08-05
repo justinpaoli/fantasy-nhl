@@ -1,5 +1,6 @@
-import { RouteComponentProps } from "react-router";
-import { PlayerTeam } from "../PlayerTeam/types";
+import { RouteComponentProps } from 'react-router';
+import { Player } from '../Players/types'
+import { PlayerTeam } from '../PlayerTeam/types';
 
 export interface League {
   owner: number,
@@ -25,4 +26,12 @@ export interface DraftProps extends RouteComponentProps<{leagueId: string}> {}
 
 export interface PlayerTeamRosterProps {
   team: PlayerTeam;
+}
+
+export interface ActivePlayerListProps {
+  players: Player[];
+}
+
+export interface ActivePlayerListItemProps {
+  player: Player;
 }

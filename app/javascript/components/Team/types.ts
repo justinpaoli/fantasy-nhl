@@ -2,6 +2,8 @@ export interface Player {
   person: {
     id: number,
     fullName: string,
+    firstName: string,
+    lastName: string,
     portrait: string
   },
   jerseyNumber: string,

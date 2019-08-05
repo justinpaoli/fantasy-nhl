@@ -10,6 +10,11 @@ Rails.application.routes.draw do
       post 'leagues' => :create
     end
 
+    controller :players do
+      get 'players' => :index
+      get 'players/:id' => :show
+    end
+
     controller :player_teams do
       get 'player_teams' => :index
       get 'player_teams/:id' => :show
