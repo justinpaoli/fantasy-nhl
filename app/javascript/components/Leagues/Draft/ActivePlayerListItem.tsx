@@ -13,7 +13,8 @@ const ActivePlayerListItem: FunctionComponent<ActivePlayerListItemProps> = ({
     stats: [{
       splits
     }]
-  }
+  },
+  callback
 }) => {
   const formatPlayerName = () => `${lastName}, ${firstName}`;
   const areStatsAvailable = () => typeof splits[0] !== 'undefined';
@@ -28,7 +29,7 @@ const ActivePlayerListItem: FunctionComponent<ActivePlayerListItemProps> = ({
       <Table.Cell>{goals}</Table.Cell>
       <Table.Cell>{assists}</Table.Cell>
       <Table.Cell>
-        <Button>Draft</Button>
+        <Button onClick={() => callback(id)}>Draft</Button>
       </Table.Cell>
     </Table.Row>
   );

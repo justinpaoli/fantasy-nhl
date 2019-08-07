@@ -3,7 +3,7 @@ import { Table } from 'semantic-ui-react';
 import ActivePlayerListItem from './ActivePlayerListItem';
 import { ActivePlayerListProps } from '../types';
 
-const ActivePlayerList: FunctionComponent<ActivePlayerListProps> = ({ players }) => (
+const ActivePlayerList: FunctionComponent<ActivePlayerListProps> = ({ players, draftAction }) => (
   <Table compact>
     <Table.Header>
       <Table.Row>
@@ -16,7 +16,7 @@ const ActivePlayerList: FunctionComponent<ActivePlayerListProps> = ({ players })
       </Table.Row>
     </Table.Header>
     <Table.Body>
-      {players.map(player => <ActivePlayerListItem key={player.id} player={player} />)}
+      {players.map(player => <ActivePlayerListItem key={player.id} player={player} callback={draftAction} />)}
     </Table.Body>
   </Table>
 );

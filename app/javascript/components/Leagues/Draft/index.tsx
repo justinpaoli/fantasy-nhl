@@ -12,6 +12,7 @@ import parsePlayerTeamRoster from '../../../utils/parsePlayerTeamRoster';
 import { Grid } from 'semantic-ui-react';
 import { constructWebsocketURL } from '../../../utils/constructWebsocketURL';
 import ActionCable from 'actioncable';
+import Axios from 'axios';
 
 // TODO: validate that league is in 'draft' state
 const Draft: FunctionComponent<DraftProps> = ({ match: { params: { leagueId } } }) => {
@@ -26,9 +27,10 @@ const Draft: FunctionComponent<DraftProps> = ({ match: { params: { leagueId } } 
   const handlePlayerDrafted = () => {
     const draftedPlayerIds = flatten(teams.map(team => {
       const playerIds = parsePlayerTeamRoster(team.roster);
+      team.players = [];
       playerIds.forEach(id => {
         const draftedPlayer = find(players, player => player.id === id)
-        draftedPlayer && (team.players ? team.players.push(draftedPlayer) : team.players = [draftedPlayer]);
+        draftedPlayer && team.players.push(draftedPlayer);
       });
       return playerIds;
     }));
@@ -53,13 +55,17 @@ const Draft: FunctionComponent<DraftProps> = ({ match: { params: { leagueId } } 
     })
   }, []);
 
-  useEffect(handlePlayerDrafted, [players, teams])
+  useEffect(handlePlayerDrafted, [players, teams]);
+
+  const handleDraftButtonClicked = (id: number) => {
+    Axios.post(`/api/leagues/${leagueId}/draft`, { player_id: id });
+  };
 
   return (
     <Grid>
       <Grid.Row columns='equal'>
         <Grid.Column>
-          <ActivePlayerList players={undraftedPlayers} />
+          <ActivePlayerList players={undraftedPlayers} draftAction={handleDraftButtonClicked} />
         </Grid.Column>
         <Grid.Column>
           {teams.map(team => (

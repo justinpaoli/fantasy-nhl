@@ -29,9 +29,11 @@ export interface PlayerTeamRosterProps {
 }
 
 export interface ActivePlayerListProps {
-  players: Player[];
+  players: Player[],
+  draftAction: (id: number) => void
 }
 
 export interface ActivePlayerListItemProps {
-  player: Player;
+  player: Player,
+  callback: (id: number) => void
 }

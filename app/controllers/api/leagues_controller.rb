@@ -1,7 +1,11 @@
 module API
   class LeaguesController < ApplicationController
     before_action :authenticate_user
-    before_action :set_league, only: [:show, :teams, :edit, :update, :destroy]
+    before_action :set_league, only: [:show, :teams, :draft, :edit, :update, :destroy]
+
+    def player_teams_helper
+      @player_teams_helper = PlayerTeamsHelper::PlayerTeamsHelper.new
+    end
 
     # GET /leagues
     # GET /leagues.json
@@ -42,6 +46,12 @@ module API
       else
         format.json { render json: @league.errors, status: :unprocessable_entity }
       end
+    end
+
+    def draft
+      player_team = @league.player_teams.select { |team| team.user_id == current_user.id }[0]
+      player_teams_helper.add_player_to_roster(player_team, params[:player_id])
+      render json: player_team, status: :ok
     end
 
     # DELETE /leagues/1
