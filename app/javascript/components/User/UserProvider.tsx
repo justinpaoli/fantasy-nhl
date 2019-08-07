@@ -5,7 +5,7 @@ import Axios from 'axios';
 export const UserContext = createContext<IUserContext>({} as IUserContext);
 
 const UserProvider: FunctionComponent = (props) => {
-  const [user, setUser] = useState<User>(JSON.parse(localStorage.getItem('user') || '') as User);
+  const [user, setUser] = useState<User>(JSON.parse(localStorage.getItem('user') || '{}') as User);
   Axios.defaults.headers.common['Authorization'] = user.jwt;
   
   const updateUser = (user: User): void => {
