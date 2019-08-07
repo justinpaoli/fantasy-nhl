@@ -33,7 +33,7 @@ module API
     # PUT /player_teams/1.json
     def update
       if @player_team.update(player_team_params)
-        DraftChannel.broadcast_to @player_team, @player_team.as_json
+        DraftChannel.broadcast_to @player_team.league, @player_team.league.player_teams.as_json
         render json: @player_team, status: :ok
       else
         render json: @player_team.errors, status: :unprocessable_entity

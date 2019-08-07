@@ -1,6 +1,5 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Table } from 'semantic-ui-react';
-import { Player } from '../../Players/types';
 import ActivePlayerListItem from './ActivePlayerListItem';
 import { ActivePlayerListProps } from '../types';
 

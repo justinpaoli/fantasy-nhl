@@ -20,17 +20,26 @@ module PlayersHelper
     end
 
     def get_all_active_players(goalies: false)
+      Player.all.map { |player| JSON.parse(player.json) }
+    end
+
+    def cache_all_active_players(goalies: false)
       teams = @teams_helper.get_all_teams
-      players = teams.map do |team|
+      teams.each do |team|
         team_with_roster = @teams_helper.get_team_with_roster(team['id'])
         player_ids = team_with_roster['roster']['roster'].map { |player| player['person']['id'] }
-        players =  player_ids.map do |id|
+        player_ids.each do |id|
           player = get_player(id, portrait: true, stats: true)
-          player['primaryPosition']['code'] != 'G' || goalies ? player : nil
+          player = nil unless player['primaryPosition']['code'] != 'G' || goalies
+          if player
+            Player.where(id: player['id']).first_or_initialize.tap do |loaded_player|
+              loaded_player.name = player['fullName']
+              loaded_player.json = player.to_json
+              loaded_player.save
+            end
+          end
         end
-        players.compact
       end
-      players.flatten
     end
   end
 end

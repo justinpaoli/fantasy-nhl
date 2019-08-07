@@ -1,7 +1,7 @@
 class DraftChannel < ApplicationCable::Channel
   def subscribed
-    player_team = PlayerTeam.find(params[:team])
-    stream_for player_team
+    league = League.find(params[:league])
+    stream_for league
   end
 
   def unsubscribed

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, Fragment, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import { DraftProps } from '../types';
 import { PlayerTeam } from '../../PlayerTeam/types';
 import getLeagueTeamsById from '../../../utils/getLeagueTeamsById';
@@ -7,9 +7,11 @@ import useRequireLoggedIn from '../../../hooks/useRequireLoggedIn';
 import PlayerTeamRoster from './PlayerTeamRoster';
 import ActivePlayerList from './ActivePlayerList';
 import { Player } from '../../Players/types';
-import { includes, flatten } from 'lodash';
+import { includes, flatten, find } from 'lodash';
 import parsePlayerTeamRoster from '../../../utils/parsePlayerTeamRoster';
 import { Grid } from 'semantic-ui-react';
+import { constructWebsocketURL } from '../../../utils/constructWebsocketURL';
+import ActionCable from 'actioncable';
 
 // TODO: validate that league is in 'draft' state
 const Draft: FunctionComponent<DraftProps> = ({ match: { params: { leagueId } } }) => {
@@ -17,27 +19,21 @@ const Draft: FunctionComponent<DraftProps> = ({ match: { params: { leagueId } } 
 
   const [teams, setTeams] = useState<PlayerTeam[]>([]);
   const [players, setPlayers] = useState<Player[]>([]);
-  const [draftedPlayerIds, setDraftedPlayerIds] = useState<number[]>();
   const [undraftedPlayers, setUndraftedPlayers] = useState<Player[]>([]);
 
-  const updateTeamRosters = () => (
-    setDraftedPlayerIds(
-      flatten(teams.map((team, i, teams) => {
-        const playerIds = parsePlayerTeamRoster(team.roster);
-        playerIds.forEach(id => {
-          const player = players.filter(player => player.id === id)[0];
-          if (!includes(team.players, player)) team.players ? team.players.push(player) : team.players = [player];
-        });
-        return playerIds;
-      }))
-    )
-  );
+  const [cable, _setCable] = useState(ActionCable.createConsumer(constructWebsocketURL()));
 
-  const filterDraftedPlayers = () => (
-    setUndraftedPlayers(
-      players.filter(player => !includes(draftedPlayerIds, player.id))
-    )
-  );
+  const handlePlayerDrafted = () => {
+    const draftedPlayerIds = flatten(teams.map(team => {
+      const playerIds = parsePlayerTeamRoster(team.roster);
+      playerIds.forEach(id => {
+        const draftedPlayer = find(players, player => player.id === id)
+        draftedPlayer && (team.players ? team.players.push(draftedPlayer) : team.players = [draftedPlayer]);
+      });
+      return playerIds;
+    }));
+    setUndraftedPlayers(players.filter(player => !includes(draftedPlayerIds, player.id)));
+  };
 
   useEffect(() => {
     Promise
@@ -45,11 +41,19 @@ const Draft: FunctionComponent<DraftProps> = ({ match: { params: { leagueId } } 
       .then(responses => {
         setPlayers(responses[0].data);
         setTeams(responses[1].data);
-      })
+      });
+
+    cable.subscriptions.create({
+      channel: 'DraftChannel',
+      league: leagueId
+    }, {
+      connected: () => {},
+      disconnected: () => {},
+      received: setTeams
+    })
   }, []);
 
-  useEffect(() => updateTeamRosters(), [teams]);
-  useEffect(() => filterDraftedPlayers(), [players, draftedPlayerIds]);
+  useEffect(handlePlayerDrafted, [players, teams])
 
   return (
     <Grid>

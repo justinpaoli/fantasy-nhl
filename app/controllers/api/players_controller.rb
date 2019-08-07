@@ -3,7 +3,7 @@ require 'nice_http'
 module API
   class PlayersController < ApplicationController
     def players_helper
-      @players_helper ||= PlayersHelper::PlayersHelper.new
+      @players_helper = PlayersHelper::PlayersHelper.new
     end
 
     def index
