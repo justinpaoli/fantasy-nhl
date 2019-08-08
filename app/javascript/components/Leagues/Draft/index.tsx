@@ -9,7 +9,7 @@ import ActivePlayerList from './ActivePlayerList';
 import { Player } from '../../Players/types';
 import { includes, flatten, find } from 'lodash';
 import parsePlayerTeamRoster from '../../../utils/parsePlayerTeamRoster';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Input } from 'semantic-ui-react';
 import { constructWebsocketURL } from '../../../utils/constructWebsocketURL';
 import ActionCable from 'actioncable';
 import Axios from 'axios';
@@ -20,7 +20,9 @@ const Draft: FunctionComponent<DraftProps> = ({ match: { params: { leagueId } } 
 
   const [teams, setTeams] = useState<PlayerTeam[]>([]);
   const [players, setPlayers] = useState<Player[]>([]);
+  const [search, setSearch] = useState('');
   const [undraftedPlayers, setUndraftedPlayers] = useState<Player[]>([]);
+  const [visiblePlayers, setVisiblePlayers] = useState<Player[]>([]);
 
   const [cable, _setCable] = useState(ActionCable.createConsumer(constructWebsocketURL()));
 
@@ -36,6 +38,11 @@ const Draft: FunctionComponent<DraftProps> = ({ match: { params: { leagueId } } 
     }));
     setUndraftedPlayers(players.filter(player => !includes(draftedPlayerIds, player.id)));
   };
+
+  const handleSearch = () => {
+    const filter = new RegExp(search, 'i');
+    setVisiblePlayers(players.filter(player => filter.test(player.fullName)));
+  }
 
   useEffect(() => {
     Promise
@@ -56,6 +63,7 @@ const Draft: FunctionComponent<DraftProps> = ({ match: { params: { leagueId } } 
   }, []);
 
   useEffect(handlePlayerDrafted, [players, teams]);
+  useEffect(handleSearch, [undraftedPlayers, search])
 
   const handleDraftButtonClicked = (id: number) => {
     Axios.post(`/api/leagues/${leagueId}/draft`, { player_id: id });
@@ -65,7 +73,8 @@ const Draft: FunctionComponent<DraftProps> = ({ match: { params: { leagueId } } 
     <Grid>
       <Grid.Row columns='equal'>
         <Grid.Column>
-          <ActivePlayerList players={undraftedPlayers} draftAction={handleDraftButtonClicked} />
+          <Input icon='search' onChange={e => setSearch(e.target.value)} fluid />
+          <ActivePlayerList players={visiblePlayers} draftAction={handleDraftButtonClicked} />
         </Grid.Column>
         <Grid.Column>
           {teams.map(team => (
