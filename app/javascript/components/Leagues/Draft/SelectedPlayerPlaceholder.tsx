@@ -15,6 +15,7 @@ const SelectedPlayerPlaceholder: FunctionComponent = () => (
           <Placeholder.Line length='long' />
         </Placeholder.Paragraph>
       </Placeholder>
+      <br />
       <Card.Description>
         Click on a player to view more details about them.
       </Card.Description>
