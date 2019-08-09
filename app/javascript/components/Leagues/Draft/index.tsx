@@ -13,6 +13,8 @@ import { Grid, Input } from 'semantic-ui-react';
 import { constructWebsocketURL } from '../../../utils/constructWebsocketURL';
 import ActionCable from 'actioncable';
 import Axios from 'axios';
+import SelectedPlayerCard from './SelectedPlayerCard';
+import SelectedPlayerPlaceholder from './SelectedPlayerPlaceholder';
 
 // TODO: validate that league is in 'draft' state
 const Draft: FunctionComponent<DraftProps> = ({ match: { params: { leagueId } } }) => {
@@ -23,6 +25,7 @@ const Draft: FunctionComponent<DraftProps> = ({ match: { params: { leagueId } } 
   const [search, setSearch] = useState('');
   const [undraftedPlayers, setUndraftedPlayers] = useState<Player[]>([]);
   const [visiblePlayers, setVisiblePlayers] = useState<Player[]>([]);
+  const [selectedPlayer, setSelectedPlayer] = useState<Player>();
 
   const [cable, _setCable] = useState(ActionCable.createConsumer(constructWebsocketURL()));
 
@@ -41,7 +44,7 @@ const Draft: FunctionComponent<DraftProps> = ({ match: { params: { leagueId } } 
 
   const handleSearch = () => {
     const filter = new RegExp(search, 'i');
-    setVisiblePlayers(players.filter(player => filter.test(player.fullName)));
+    setVisiblePlayers(undraftedPlayers.filter(player => filter.test(player.fullName)));
   }
 
   useEffect(() => {
@@ -69,17 +72,28 @@ const Draft: FunctionComponent<DraftProps> = ({ match: { params: { leagueId } } 
     Axios.post(`/api/leagues/${leagueId}/draft`, { player_id: id });
   };
 
+  const handlePlayerRowClicked = (player: Player) => setSelectedPlayer(player);
+
   return (
-    <Grid>
-      <Grid.Row columns='equal'>
+    <Grid padded>
+      <Grid.Row columns={2}>
         <Grid.Column>
           <Input icon='search' onChange={e => setSearch(e.target.value)} fluid />
-          <ActivePlayerList players={visiblePlayers} draftAction={handleDraftButtonClicked} />
+          <ActivePlayerList players={visiblePlayers} rowSelectAction={handlePlayerRowClicked} draftAction={handleDraftButtonClicked} />
         </Grid.Column>
         <Grid.Column>
-          {teams.map(team => (
-            <PlayerTeamRoster key={team.id} team={team} />
-          ))}
+          <Grid>
+            <Grid.Row columns={2}>
+              <Grid.Column>
+                {teams.map(team => (
+                  <PlayerTeamRoster key={team.id} team={team} />
+                ))}
+              </Grid.Column>
+              <Grid.Column>
+                {selectedPlayer ? <SelectedPlayerCard player={selectedPlayer} /> : <SelectedPlayerPlaceholder />}
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </Grid.Column>
       </Grid.Row>
     </Grid>

@@ -30,10 +30,16 @@ export interface PlayerTeamRosterProps {
 
 export interface ActivePlayerListProps {
   players: Player[],
-  draftAction: (id: number) => void
+  draftAction: (id: number) => void,
+  rowSelectAction: (player: Player) => void
 }
 
 export interface ActivePlayerListItemProps {
   player: Player,
-  callback: (id: number) => void
+  buttonCallback: (id: number) => void,
+  rowCallback: (player: Player) => void
+}
+
+export interface SelectedPlayerCardProps {
+  player: Player
 }

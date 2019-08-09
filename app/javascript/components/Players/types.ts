@@ -3,6 +3,7 @@ export interface Player {
   fullName: string,
   firstName: string,
   lastName: string,
+  portrait: string,
   rosterStatus: 'Y' | 'I',
   currentTeam: {
     id: number,
