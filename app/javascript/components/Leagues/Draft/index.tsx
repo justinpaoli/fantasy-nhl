@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import { DraftProps } from '../types';
+import { LeagueIdProps } from '../types';
 import { PlayerTeam } from '../../PlayerTeam/types';
 import getLeagueTeamsById from '../../../utils/getLeagueTeamsById';
 import getAllPlayers from '../../../utils/getAllPlayers';
@@ -17,7 +17,7 @@ import SelectedPlayerCard from './SelectedPlayerCard';
 import SelectedPlayerPlaceholder from './SelectedPlayerPlaceholder';
 
 // TODO: validate that league is in 'draft' state
-const Draft: FunctionComponent<DraftProps> = ({ match: { params: { leagueId } } }) => {
+const Draft: FunctionComponent<LeagueIdProps> = ({ match: { params: { leagueId } } }) => {
   useRequireLoggedIn();
 
   const [teams, setTeams] = useState<PlayerTeam[]>([]);

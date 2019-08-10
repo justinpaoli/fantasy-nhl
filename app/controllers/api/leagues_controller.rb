@@ -3,6 +3,10 @@ module API
     before_action :authenticate_user
     before_action :set_league, only: [:show, :teams, :draft, :edit, :update, :destroy]
 
+    def leagues_helper
+      @leagues_helper = LeaguesHelper::LeaguesHelper.new
+    end
+
     def player_teams_helper
       @player_teams_helper = PlayerTeamsHelper::PlayerTeamsHelper.new
     end
@@ -21,7 +25,8 @@ module API
     end
 
     def teams
-      render json: @league.player_teams, status: :ok
+      teams = leagues_helper.get_player_teams_with_players(@league)
+      render json: teams, status: :ok
     end
 
     # POST /leagues
