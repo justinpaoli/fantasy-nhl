@@ -22,7 +22,7 @@ export interface LeagueRules {
   }
 }
 
-export interface DraftProps extends RouteComponentProps<{leagueId: string}> {}
+export interface LeagueIdProps extends RouteComponentProps<{leagueId: string}> {}
 
 export interface PlayerTeamRosterProps {
   team: PlayerTeam;
