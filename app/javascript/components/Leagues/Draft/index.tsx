@@ -30,15 +30,7 @@ const Draft: FunctionComponent<LeagueIdProps> = ({ match: { params: { leagueId }
   const [cable, _setCable] = useState(ActionCable.createConsumer(constructWebsocketURL()));
 
   const handlePlayerDrafted = () => {
-    const draftedPlayerIds = flatten(teams.map(team => {
-      const playerIds = parsePlayerTeamRoster(team.roster);
-      team.players = [];
-      playerIds.forEach(id => {
-        const draftedPlayer = find(players, player => player.id === id)
-        draftedPlayer && team.players.push(draftedPlayer);
-      });
-      return playerIds;
-    }));
+    const draftedPlayerIds = flatten(teams.map(team => parsePlayerTeamRoster(team.roster)));
     setUndraftedPlayers(players.filter(player => !includes(draftedPlayerIds, player.id)));
   };
 
