@@ -7,6 +7,7 @@ export interface PlayerTeam {
   id: number
   league_id: number,
   user_id: number,
+  owner: string,
   name: string,
   roster: string
   players: Player[];

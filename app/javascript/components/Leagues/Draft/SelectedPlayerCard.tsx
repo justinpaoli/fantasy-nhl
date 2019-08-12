@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { SelectedPlayerCardProps } from '../types';
+import { PlayerProps } from '../types';
 import { Card, Image } from 'semantic-ui-react';
 
-const SelectedPlayerCard: FunctionComponent<SelectedPlayerCardProps> = ({ 
+const SelectedPlayerCard: FunctionComponent<PlayerProps> = ({ 
   player: {
     fullName,
     portrait,

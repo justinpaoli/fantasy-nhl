@@ -1,14 +1,16 @@
 module PlayerTeamsHelper
   class PlayerTeamsHelper
     def initialize
-      @players_helper ||= PlayersHelper::PlayersHelper.new
+      @players_helper = PlayersHelper::PlayersHelper.new
+      @users_helper = UsersHelper::UsersHelper.new
     end
 
     def get_player_team_with_players(player_team)
       team = player_team.attributes
       roster = player_team.roster.split(',')
+      team['owner'] = @users_helper.get_username(player_team.user_id)
       team['players'] = roster.map do |id|
-        @players_helper.get_player(id)
+        @players_helper.get_player(id, stats: true)
       end
       team
     end

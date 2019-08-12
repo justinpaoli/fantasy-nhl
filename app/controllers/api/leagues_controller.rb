@@ -1,6 +1,6 @@
 module API
   class LeaguesController < ApplicationController
-    before_action :authenticate_user
+    before_action :authenticate_user, only: [:draft, :edit, :update, :destroy]
     before_action :set_league, only: [:show, :teams, :draft, :edit, :update, :destroy]
 
     def leagues_helper

@@ -24,6 +24,10 @@ export interface LeagueRules {
 
 export interface LeagueIdProps extends RouteComponentProps<{leagueId: string}> {}
 
+export interface PlayerProps {
+  player: Player
+}
+
 export interface PlayerTeamRosterProps {
   team: PlayerTeam;
 }
@@ -34,12 +38,8 @@ export interface ActivePlayerListProps {
   rowSelectAction: (player: Player) => void
 }
 
-export interface ActivePlayerListItemProps {
-  player: Player,
+export interface ActivePlayerListItemProps extends PlayerProps {
   buttonCallback: (id: number) => void,
   rowCallback: (player: Player) => void
 }
 
-export interface SelectedPlayerCardProps {
-  player: Player
-}

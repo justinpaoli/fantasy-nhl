@@ -11,6 +11,7 @@ import CreateLeagueForm from './Leagues/CreateLeagueForm';
 import CreateTeamForm from './PlayerTeam/CreateTeamForm';
 import UserProvider from './User/UserProvider';
 import Draft from './Leagues/Draft';
+import Standings from './Leagues/Standings';
 
 export default class App extends React.Component<RouteComponentProps<{}>> {
   HIDE_NAVBAR_PATHS = [
@@ -35,6 +36,7 @@ export default class App extends React.Component<RouteComponentProps<{}>> {
 
           <Route exact path='/leagues' component={Leagues} />
           <Route exact path='/leagues/create' component={CreateLeagueForm} />
+          <Route exact path='/leagues/:leagueId/standings' component={Standings} />
           <Route exact path='/leagues/:leagueId/teams/create' component={CreateTeamForm} />
           <Route exact path='/leagues/:leagueId/draft' component={Draft} />
 
