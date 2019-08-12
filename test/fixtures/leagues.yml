@@ -3,9 +3,9 @@
 one:
   owner: 
   rules: MyString
-  teamIds: MyString
+  season: MyString
 
 two:
   owner: 
   rules: MyString
-  teamIds: MyString
+  season: MyString
