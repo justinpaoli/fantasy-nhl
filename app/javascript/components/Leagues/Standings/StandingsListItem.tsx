@@ -7,6 +7,7 @@ const StandingsListItem: FunctionComponent<PlayerTeamRosterProps> = ({
   team: {
     name,
     owner,
+    score,
     players
   }
 }) => {
@@ -15,7 +16,7 @@ const StandingsListItem: FunctionComponent<PlayerTeamRosterProps> = ({
 
   return (
     <Fragment>
-      <Segment textAlign='center' onClick={toggleShowRoster}>{name} ({owner})</Segment>
+      <Segment textAlign='center' onClick={toggleShowRoster}>{name} ({owner}) - {score} point(s)</Segment>
       {showRoster && <Segment>
         <Table compact>
           <Table.Header>
