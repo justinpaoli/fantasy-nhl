@@ -8,7 +8,7 @@ const Queue: FunctionComponent<QueueProps> = ({ state }) => {
   return (
     <Step.Group>
       <Step content={title.toUpperCase()} />
-      {queue.map((user, i) => <Step content={user} active={i === 0} />)}
+      {queue.map((user, i) => <Step key={i} content={user} active={i === 0} />)}
     </Step.Group>
   );
 };
