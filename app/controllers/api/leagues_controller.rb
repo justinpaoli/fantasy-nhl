@@ -46,16 +46,19 @@ module API
     # PATCH/PUT /leagues/1
     # PATCH/PUT /leagues/1.json
     def update
-      if @league.update(league_params)
-        format.json { render :show, status: :ok, location: @league }
+      @league.update(league_params)
+      @league.state = leagues_helper.setup_draft(@league) if @league.state == 'draft'
+
+      if @league.save
+        render json: @league, status: :ok
       else
-        format.json { render json: @league.errors, status: :unprocessable_entity }
+        render json: @league.errors, status: :unprocessable_entity
       end
     end
 
     def draft
       player_team = @league.player_teams.select { |team| team.user_id == current_user.id }[0]
-      player_teams_helper.add_player_to_roster(player_team, params[:player_id])
+      player_teams_helper.add_player_to_roster(player_team, params[:player_id], current_user)
       render json: player_team, status: :ok
     end
 

@@ -15,12 +15,19 @@ module PlayerTeamsHelper
       team
     end
 
-    def add_player_to_roster(player_team, id)
+    def add_player_to_roster(player_team, id, user)
+      state, *queue = player_team.league.state.split('|')
+      return false unless state == 'draft' && user.username == queue[0]
+
       roster = player_team.roster.split(',')
-      roster = roster + [id]
+      roster << id
       player_team.roster = roster.uniq.join(',')
+      queue.shift
+      player_team.league.state = [state, *queue].join('|')
+
       player_team.save
-      DraftChannel.broadcast_to player_team.league, player_team.league.player_teams.as_json
+      player_team.league.save
+      DraftChannel.broadcast_to player_team.league, { teams: player_team.league.player_teams, state: player_team.league.state }.as_json
     end
   end
 end

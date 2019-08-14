@@ -24,5 +24,17 @@ module LeaguesHelper
       end
       teams.sort { |a, b| b['score'] <=> a['score'] }
     end
+
+    def setup_draft(league)
+      rounds = get_rules(league)['playersPerTeam'].to_i
+      users = league.users.map(&:username).shuffle
+
+      queue = []
+      count = 0
+      while (count += 1) <= rounds
+        queue.concat(count.odd? ? users : users.reverse)
+      end
+      ['draft'].concat(queue).join('|')
+    end
   end
 end

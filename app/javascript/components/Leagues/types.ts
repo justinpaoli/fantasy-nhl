@@ -43,3 +43,6 @@ export interface ActivePlayerListItemProps extends PlayerProps {
   rowCallback: (player: Player) => void
 }
 
+export interface QueueProps {
+  state: string
+}

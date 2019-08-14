@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     controller :leagues do
       get 'leagues' => :index
       get 'leagues/:id' => :show
+      put 'leagues/:id' => :update
       get 'leagues/:id/teams' => :teams
       post 'leagues/:id/draft' => :draft
       post 'leagues' => :create

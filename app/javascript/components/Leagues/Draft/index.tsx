@@ -15,11 +15,14 @@ import ActionCable from 'actioncable';
 import Axios from 'axios';
 import SelectedPlayerCard from './SelectedPlayerCard';
 import SelectedPlayerPlaceholder from './SelectedPlayerPlaceholder';
+import getLeagueById from '../../../utils/getLeagueById';
+import Queue from './Queue';
 
 // TODO: validate that league is in 'draft' state
 const Draft: FunctionComponent<LeagueIdProps> = ({ match: { params: { leagueId } } }) => {
   useRequireLoggedIn();
 
+  const [leagueState, setLeagueState] = useState('draft');
   const [teams, setTeams] = useState<PlayerTeam[]>([]);
   const [players, setPlayers] = useState<Player[]>([]);
   const [search, setSearch] = useState('');
@@ -41,10 +44,11 @@ const Draft: FunctionComponent<LeagueIdProps> = ({ match: { params: { leagueId }
 
   useEffect(() => {
     Promise
-      .all([getAllPlayers(), getLeagueTeamsById(leagueId)])
+      .all([getAllPlayers(), getLeagueTeamsById(leagueId), getLeagueById(leagueId)])
       .then(responses => {
         setPlayers(responses[0].data);
         setTeams(responses[1].data);
+        setLeagueState(responses[2].data.state);
       });
 
     cable.subscriptions.create({
@@ -53,7 +57,10 @@ const Draft: FunctionComponent<LeagueIdProps> = ({ match: { params: { leagueId }
     }, {
       connected: () => {},
       disconnected: () => {},
-      received: setTeams
+      received: message => {
+        setTeams(message.teams)
+        setLeagueState(message.state)
+      }
     })
   }, []);
 
@@ -68,6 +75,11 @@ const Draft: FunctionComponent<LeagueIdProps> = ({ match: { params: { leagueId }
 
   return (
     <Grid padded>
+      <Grid.Row columns={1}>
+        <Grid.Column>
+          <Queue state={leagueState} />
+        </Grid.Column>
+      </Grid.Row>
       <Grid.Row columns={2}>
         <Grid.Column>
           <Input icon='search' onChange={e => setSearch(e.target.value)} fluid />
