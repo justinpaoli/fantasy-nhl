@@ -11,7 +11,6 @@ module LeaguesHelper
     def get_player_teams_with_players(league)
       rules = get_rules(league)
       teams = league.player_teams.map do |team|
-        puts team.roster
         @player_teams_helper.get_player_team_with_players(team)
       end
       teams.map! do |team|
