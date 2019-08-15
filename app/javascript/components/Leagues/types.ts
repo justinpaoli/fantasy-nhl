@@ -11,6 +11,7 @@ export interface League {
 }
 
 export interface LeagueRules {
+  playersPerTeam: number,
   goalValue: number,
   assistValue: number,
   

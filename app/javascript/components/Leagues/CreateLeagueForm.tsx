@@ -16,7 +16,8 @@ const CreateLeagueForm: FunctionComponent = () => {
   const {
     state, setState,
     fields: [
-      name, 
+      name,
+      playersPerTeam,
       goalValue, 
       assistValue,
       allowGoalies,
@@ -25,7 +26,8 @@ const CreateLeagueForm: FunctionComponent = () => {
       goalieShutoutValue
     ],
     setters: [
-      setName, 
+      setName,
+      setPlayersPerTeam,
       setGoalValue, 
       setAssistValue,
       setAllowGoalies,
@@ -33,7 +35,7 @@ const CreateLeagueForm: FunctionComponent = () => {
       setGoalieWinValue,
       setGoalieShutoutValue
     ]
-  } = useFormInputData(7);
+  } = useFormInputData(8);
 
   useEffect(() => {
     getCurrentSeason().then(response => setSeason(response.data));
@@ -42,6 +44,7 @@ const CreateLeagueForm: FunctionComponent = () => {
 
   const stringifyRules = (): string => {
     const rules = {
+      playersPerTeam: playersPerTeam,
       goalValue: goalValue,
       assistValue: assistValue,
       allowGoalies: allowGoalies
@@ -81,7 +84,10 @@ const CreateLeagueForm: FunctionComponent = () => {
         <Form.Input label='League name' name='name' onChange={e => setName(e.target.value)} />
         <Header as='h4' content='Rules' />
         <Grid stackable>
-          <Grid.Row columns={2}>
+          <Grid.Row columns={3}>
+            <Grid.Column>
+              <Input label='Players per team' type='number' name='playersPerTeam' onChange={e => setPlayersPerTeam(e.target.value)} fluid />
+            </Grid.Column>
             <Grid.Column>
               <Input label='Points per goal' type='number' name='goalValue' onChange={e => setGoalValue(e.target.value)} fluid />
             </Grid.Column>
