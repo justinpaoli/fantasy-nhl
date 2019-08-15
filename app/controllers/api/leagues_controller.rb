@@ -25,7 +25,7 @@ module API
     end
 
     def teams
-      teams = leagues_helper.get_player_teams_with_players(@league)
+      teams = leagues_helper.get_standings(@league)
       render json: teams, status: :ok
     end
 

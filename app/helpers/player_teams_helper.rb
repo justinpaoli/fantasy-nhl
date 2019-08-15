@@ -27,7 +27,10 @@ module PlayerTeamsHelper
 
       player_team.save
       player_team.league.save
-      DraftChannel.broadcast_to player_team.league, { teams: player_team.league.player_teams, state: player_team.league.state }.as_json
+      DraftChannel.broadcast_to player_team.league, { 
+        teams: player_team.league.player_teams.map { |team| get_player_team_with_players(team) }, 
+        state: player_team.league.state 
+      }.as_json
     end
   end
 end

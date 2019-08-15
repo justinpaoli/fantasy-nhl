@@ -9,10 +9,14 @@ module LeaguesHelper
     end
 
     def get_player_teams_with_players(league)
-      rules = get_rules(league)
       teams = league.player_teams.map do |team|
         @player_teams_helper.get_player_team_with_players(team)
       end
+    end
+
+    def get_standings(league)
+      rules = get_rules(league)
+      teams = get_player_teams_with_players(league)
       teams.map! do |team|
         team['score'] = team['players'].reduce(0) do |sum, player|
           stats = player['stats'][0]['splits'][0]['stat']
